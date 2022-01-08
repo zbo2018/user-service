@@ -1,20 +1,18 @@
 package com.weaver.rpa.tender.search.controller;
 
 
-import com.weaver.rpa.tender.search.service.TenderKeywordElasticService;
-import com.weaver.rpa.tender.search.util.ResponseConstants;
 import com.weaver.rpa.tender.search.util.ResponseModel;
 import com.weaver.rpa.tender.search.util.ResponseUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/rpa/tender")
@@ -22,8 +20,8 @@ public class SearchController {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 
-    @Autowired
-    private TenderKeywordElasticService elasticService;
+    //@Autowired
+    //private TenderKeywordElasticService elasticService;
 
     @GetMapping("/hello/{name}")
     @ResponseBody
@@ -36,7 +34,7 @@ public class SearchController {
     }
 
 
-    @PostMapping("/search")
+    /*@PostMapping("/search")
     @ResponseBody
     public String search(@RequestBody Map<String, String> param){
         String words = param.get("words");
@@ -48,7 +46,7 @@ public class SearchController {
 
         ResponseModel<List<String>> resp = elasticService.search(words, title, content);
         return ResponseUtil.getResponseJson(resp);
-    }
+    }*/
 
 
 
