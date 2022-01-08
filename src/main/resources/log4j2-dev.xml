@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration status="ERROR">
+	<properties>
+		<!-- 文件输出格式 -->
+		<property name="PATTERN">【%d{yyyy-MM-dd HH:mm:ss,SSS}】 %p[%t]-%C{1}.%M(%L)(%r) | %m%n</property>
+		<property name="DIR">/oa/deploy/logs/log4j/rpa-tender</property>
+		<property name="PROJECT_NAME">knowledge-search</property>
+	</properties>
+
+	<Appenders>
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${PATTERN}"/>
+		</Console>
+		<!-- 存储所有error信息 -->
+		<RollingRandomAccessFile name="ADMIN" fileName="${DIR}/${PROJECT_NAME}.log" filePattern="${DIR}/${PROJECT_NAME}-%d{MM-dd-yyyy}.log">
+			<PatternLayout>
+				<pattern>【%d{yyyy-MM-dd HH:mm:ss,SSS}】 %p[%t]-%C{1}.%M(%L)(%r) | %m%n</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="6" modulate="true" />
+				<SizeBasedTriggeringPolicy size="100 MB"/>
+			</Policies>
+			<!-- 指定每天的最大压缩包个数，默认7个，超过了会覆盖之前的 -->
+			<DefaultRolloverStrategy max="20"/>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<logger name="com.weaver.rpa" level="INFO">
+			<AppenderRef ref="ADMIN" />
+		</logger>
+		<Logger name="org.springframework" level="ERROR" />
+		<Root level="WARN">
+			<AppenderRef  ref="CONSOLE"/>
+		</Root>
+	</Loggers>
+
+</configuration>

@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "index.number_of_shards": "5",
+    "index.number_of_replicas": "1",
+    "analysis":{
+      "analyzer":{
+        "my_analyzer":{
+          "tokenizer": "keyword",
+          "char_filter": ["html_strip"]
+        },
+        "my_hanlp_remove_stop_analyzer":{
+          "type": "custom",
+          "tokenizer": "ik_smart",
+          "char_filter": ["html_strip"],
+          "filter": ["lowercase","my_stop_filter"]
+        }
+      },
+      "filter": {
+        "my_stop_filter":{
+          "type": "stop",
+          "ignore_case": true,
+          "stopwords_path": "analysis/find_user_similarity/stopwords.txt"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "fields": {
+          "order": {
+            "type": "integer"
+          }
+        }
+      },
+      "appId": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text"
+      },
+      "content": {
+        "type": "text"
+      }
+    }
+  }
+}

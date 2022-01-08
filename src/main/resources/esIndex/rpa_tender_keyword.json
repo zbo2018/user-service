@@ -1,0 +1,87 @@
+{
+  "settings": {
+    "index.number_of_shards": "5",
+    "index.number_of_replicas": "1",
+    "analysis":{
+      "analyzer":{
+        "my_ngram": {
+          "tokenizer": "2_grams_tok",
+          "filter": ["lowercase", "length_filter"]
+        },
+        "my_whitespace_ngram": {
+          "tokenizer": "whitespace",
+          "filter": ["lowercase", "2_2_grams"]
+        },
+        "standard_one_token_limit":{
+          "tokenizer": "standard",
+          "filter": ["lowercase", "limit"]
+        }
+      },
+      "tokenizer": {
+        "2_grams_tok":{
+          "type": "ngram",
+          "min_gram": "2",
+          "max_gram": "2"
+        }
+      },
+      "filter": {
+        "length_filter": {
+          "type": "length",
+          "min": "2"
+        },
+        "2_2_grams": {
+          "type": "ngram",
+          "min_gram": "2",
+          "max_gram": "2"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword",
+        "fields": {
+          "order": {
+            "type": "integer"
+          }
+        }
+      },
+      "appId": {
+        "type": "keyword"
+      },
+      "tag": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          },
+          "ngramTag": {
+            "type": "text",
+            "analyzer": "my_ngram",
+            "search_analyzer": "my_ngram"
+          },
+          "firstWord": {
+            "type": "text",
+            "analyzer": "standard_one_token_limit",
+            "search_analyzer": "standard_one_token_limit"
+          },
+          "tailWord": {
+            "type": "text"
+          }
+        }
+      },
+      "tagLength": {
+        "type": "integer"
+      },
+      "tagLowFreq": {
+        "type": "text",
+        "analyzer": "my_whitespace_ngram",
+        "search_analyzer": "my_whitespace_ngram"
+      },
+      "classify": {
+        "type": "keyword"
+      }
+    }
+  }
+}
